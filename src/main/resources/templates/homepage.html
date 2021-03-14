@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <title>Ресторан</title>
+    <style>
+	.notice {
+    padding: 15px;
+    background-color: #fafafa;
+    border-left: 6px solid #7f7f84;
+	border-right: 6px solid #7f7f84;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+       -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+            box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+}
+.notice-sm {
+    padding: 10px;
+    font-size: 80%;
+}
+
+
+        #fancy-list-group .list-group li.list-group-item {
+          margin-bottom: 10px;
+          padding: 0;
+          border: 0;
+          position: relative;
+          display: table;
+          border-collapse: separate;
+        }
+        #fancy-list-group .list-group li.list-group-item .list-group-item-addon {
+          display: table-cell;
+          width: 1%;
+          white-space: nowrap;
+          vertical-align: middle;
+          padding: 10px 20px;
+          height: 100px;
+          line-height: 1;
+          text-align: center;
+          border-right: 0;
+          border-top-left-radius : 4px;
+          border-bottom-left-radius: 4px;
+          border: 1px solid #444;
+          background-color: #444;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-success .list-group-item-addon {
+          border: 1px solid #3c763d;
+          background-color: #3c763d;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-info .list-group-item-addon {
+          border: 1px solid #31708f;
+          background-color: #31708f;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-warning .list-group-item-addon {
+          border: 1px solid #8a6d3b;
+          background-color: #8a6d3b;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-danger .list-group-item-addon {
+          border: 1px solid #a94442;
+          background-color: #a94442;
+        }
+        #fancy-list-group .list-group li.list-group-item .list-group-item-addon span {
+          font-size: 40px;
+          font-weight: normal;
+          color: #fff;
+        }
+        #fancy-list-group .list-group li.list-group-item .list-group-item-content {
+          display: table-cell;
+          border-radius: 0;
+          position: relative;
+          z-index: 2;
+          float: left;
+          width: 100%;
+          height: 100px;
+          margin-bottom: 0;
+          border: 1px solid #444;
+          border-right: 0;
+          padding: 25px;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-success .list-group-item-content {
+          border-color: #3c763d;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-info .list-group-item-content {
+          border-color: #31708f;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-warning .list-group-item-content {
+          border-color: #8a6d3b;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-danger .list-group-item-content {
+          border-color: #a94442;
+        }
+        #fancy-list-group .list-group li.list-group-item .list-group-item-controls {
+          display: table-cell;
+          width: 1%;
+          white-space: nowrap;
+          vertical-align: middle;
+          padding: 0 10px;
+          line-height: 1;
+          text-align: center;
+          border-left: 0;
+          background-color: #444;
+          border: 1px solid #444;
+          border-top-right-radius : 4px;
+          border-bottom-right-radius: 4px;
+        }
+        #fancy-list-group .list-group li.list-group-item .list-group-item-controls .label {
+          display: block;
+          text-align: center;
+          margin-bottom: 10px;
+          background-color: #fff;
+          color: #444;
+          text-transform: uppercase;
+          font-weight: normal;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-success .list-group-item-controls .label {
+          background-color: #3c763d;
+          color: #fff;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-info .list-group-item-controls .label {
+          background-color: #31708f;
+          color: #fff;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-warning .list-group-item-controls .label {
+          background-color: #8a6d3b;
+          color: #fff;
+        }
+        #fancy-list-group .list-group li.list-group-item.list-group-item-danger .list-group-item-controls .label {
+          background-color: #a94442;
+          color: #fff;
+        }
+        #fancy-list-group .list-group li.list-group-item .list-group-item-controls a {
+          color : #fff;
+          font-size: 20px;
+          margin: 0 3px;
+        }
+	</style>
+</head>
+<body>
+
+<div class="container" style="width: 100%">
+    <div class="row">
+        <div class="col-xs-12" style="background-color:gray; height:50px">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/user/homepage">Ресторан</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Заказы
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="newOrder">Добавить заказ</a></li>
+                                <li><a th:href="@{'/user/orderList/' + ${currentUserRestaurant}}">Показать заказ</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+
+                    <form method="GET" th:action="@{/logout}" class="navbar-form navbar-right">
+
+                        <input type="hidden">
+                        <button type="submit" name="logout" value="true" class="btn btn-secondary">
+                            Выход <span class="badge badge-light"><font size="2" th:text="${currentUserName}">default</font></span>
+                        </button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-1" style="background-color:lightgray; height: 95vh"></div>
+
+        <div class="col-xs-10 text-center" style="background-color:white; height: 95vh; display: table">
+            <div class="container" style="width:500px">
+                <div class="notice notice-sm">
+                    Текущий ресторан: <strong><span th:text="${currentUserRestaurant}">Пользователь не назначен ни в один ресторан</span></strong>
+                </div>
+            </div>
+            <div class="clearfix"><br /></div>
+            <div class="container" style="width: 700px">
+
+                <div>
+
+
+
+
+                    <!--<div th:each="dish : ${dishes}">-->
+                    <!--<span th:text="${dish.name}"></span>-->
+                    <!--<button class="addButton" type="button">Добавить</button>-->
+                    <!--</div>-->
+
+                    <!--<fieldset id="group1">-->
+                    <!--<span th:each="item : ${dishes}">-->
+                    <!--<input type="radio" th:name="nazwa" value="${item.name}" />-->
+                    <!--<p th:text="${item.name}"></p>-->
+                    <!--</span>-->
+                    <!--</fieldset>-->
+                    <!--<button type="submit">подтвердить</button>-->
+                    </form>
+
+
+
+
+
+
+
+
+                </div>
+                <div id="fancy-list-group">
+                    <div class="row">
+                        <div class="list-group">
+                            <div class="col-xs-12">
+                                <li class="list-group-item list-group-item-success">
+                                    <div class="list-group-item-addon">
+                                        <span class="glyphicon glyphicon-list-alt"></span>
+                                    </div>
+
+
+
+                                    <div class="list-group-item-content">
+                                        <h4 class="list-group-item-heading">Заказы</h4>
+                                        <p class="list-group-item-text">Управление заказами</p>
+                                    </div>
+                                    <div class="list-group-item-controls">
+                                        <span class="label">Управление</span>
+                                        <div class="btn-group">
+                                            <a href="newOrder" title="Add"><span class="glyphicon glyphicon-plus"></span></a>
+                                            <a th:href="@{'/user/orderList/' + ${currentUserRestaurant}}" title="Изменить"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-1" style="background-color:lightgray; height:95vh"></div>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" async>
+
+        var addButtons = document.getElementsByClassName('addButton')
+        console.log(addButtons);
+
+        for (var i = 0; i<addButtons.length; i++){
+            var button = addButtons[i]
+            button.addEventListener('click', function(event){
+                var buttonClicked = event.target
+            })
+        }
+    </script>
+
+
+</html>

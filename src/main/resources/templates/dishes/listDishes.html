@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Restaurant</title>
+    <style>
+	.list-group {
+	overflow: hidden;
+	border-left: 1px solid rgb(221, 221, 221);
+	border-right: 1px solid rgb(221, 221, 221);
+}
+.list-group-item:first-child, .list-group-item:last-child {
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	overflow: hidden;
+}
+.list-group-item {
+	border-left: 0px solid rgb(221, 221, 221);
+	border-right: 0px solid rgb(221, 221, 221);
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.list-group-item > .show-menu {
+	position: absolute;
+	height: 100%; width:24px;
+	top: 0px; right: 0px;
+	background-color: rgba(51, 51, 51, 0.2);
+	cursor: pointer;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.list-group-item > .show-menu > span {
+	position: absolute;
+	top: 50%;
+	margin-top: -7px;
+	padding: 0px 5px;
+}
+.list-group-submenu {
+	position: absolute;
+	top: 0px;
+	right: -88px;
+	white-space: nowrap;
+	list-style: none;
+	padding-left: 0px;
+	-webkit-transition: all 0.5s ease-in-out;
+	-moz-transition: all 0.5s ease-in-out;
+	-o-transition: all 0.5s ease-in-out;
+	-ms-transition: all 0.5s ease-in-out;
+	transition: all 0.5s ease-in-out;
+}
+.list-group-submenu .list-group-submenu-item {
+	float: right;
+	white-space: nowrap;
+	display: block;
+	padding: 10px 15px;
+	margin-bottom: -1px;
+	background-color: rgb(51, 51, 51);
+	color: rgb(235, 235, 235);
+}
+.list-group-item.open {
+	margin-left: -88px;
+}
+.list-group-item.open > .show-menu {
+	right: 88px;
+}
+.list-group-item.open .list-group-submenu{
+	right: 0px;
+}
+.list-group-submenu .list-group-submenu-item.primary {
+	color: rgb(255, 255, 255);
+	background-color: rgb(50, 118, 177);
+}
+.list-group-submenu .list-group-submenu-item.success {
+	color: rgb(255, 255, 255);
+	background-color: rgb(92, 184, 92);
+}
+.list-group-submenu .list-group-submenu-item.info {
+	color: rgb(255, 255, 255);
+	background-color: rgb(57, 179, 215);
+}
+.list-group-submenu .list-group-submenu-item.warning {
+	color: rgb(255, 255, 255);
+	background-color: rgb(240, 173, 78);
+}
+.list-group-submenu .list-group-submenu-item.danger {
+	color: rgb(255, 255, 255);
+	background-color: rgb(217, 83, 79);
+}
+</style>
+</head>
+<body>
+<script>
+$(function () {
+    $('.list-group-item > .show-menu').on('click', function(event) {
+		event.preventDefault();
+		$(this).closest('li').toggleClass('open');
+	});
+});
+</script>
+<div class="container" style="width: 100%">
+    <div class="row">
+        <div class="col-xs-12" style="background-color:gray; height:50px">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/admin/homepage">Ресторан</a>
+                    </div>
+
+                    <ul class="nav navbar-nav">
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Пользователи
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/newUser">Добавить</a></li>
+                                <li><a href="/admin/listUsers">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Рестораны
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/restaurant/newRestaurant">Добавить</a></li>
+                                <li><a href="/admin/restaurant/listRestaurants">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Блюдо
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/dish/newDish">Добавить</a></li>
+                                <li><a href="/admin/dish/listDishes">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Отчеты
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/report/dailyReportPage">Ежедневные отчеты</a></li>
+                                <li><a href="/admin/report/periodicReportPage">Периодические отчеты</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+
+                    <form method="GET" th:action="@{/logout}" class="navbar-form navbar-right">
+
+                        <input type="hidden">
+                        <button type="submit" name="logout" value="true" class="btn btn-secondary">
+                            Выход <span class="badge badge-light"><font size="2" th:text="${currentUserName}">default</font></span>
+                        </button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-1" style="background-color:lightgray; height:95vh"></div>
+        <div class="col-xs-10 text-center" style="background-color:white; height:95vh; display: table"><br>
+            <div class="container">
+                <div class="row">
+                    <div th:if="${param.remove}" class="alert alert-success">
+                        <span>Блюдо было удалено</span>
+                    </div>
+                    <div th:if="${param.update}" class="alert alert-success">
+                        <span>Блюдо было отредактировано</span>
+                    </div>
+                    <div th:if="${param.add}" class="alert alert-success">
+                        <span>Блюдо было добавлено</span>
+                    </div>
+                    <h2>Список блюд</h2>
+                </div>
+                <div class="row">
+
+
+                    <div style="width: 300px; margin-left: auto; margin-right: auto">
+                        <ul class="list-group">
+                            <li class="list-group-item" th:each="dish : ${dishes}">
+                                <span th:text="${dish.name}">error</span>:
+                                <span th:text="${dish.price}">error</span> сом
+                                <span class="show-menu">
+						<span class="glyphicon glyphicon-chevron-left"></span>
+					</span>
+                                <ul class="list-group-submenu">
+                                    <a th:href="@{'/admin/dish/removeDish/' + ${dish.id}}"><li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li></a>
+                                    <a th:href="@{'/admin/dish/editDish/' + ${dish.id}}"><li class="list-group-submenu-item warning"><span class="glyphicon glyphicon-pencil"></span></li></a>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-1" style="background-color:lightgray; height:95vh"></div>
+    </div>
+</div>
+</body>
+</html>

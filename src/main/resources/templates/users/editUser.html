@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Restaurant</title>
+</head>
+<body>
+
+<div class="container" style="width: 100%">
+    <div class="row">
+        <div class="col-xs-12" style="background-color:gray; height:50px">
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="/admin/homepage">Ресторан</a>
+                    </div>
+
+                    <ul class="nav navbar-nav">
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Пользователи
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/newUser">Добавить</a></li>
+                                <li><a href="/admin/listUsers">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Рестораны
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/restaurant/newRestaurant">Добавить</a></li>
+                                <li><a href="/admin/restaurant/listRestaurants">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Блюдо
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/dish/newDish">Добавить</a></li>
+                                <li><a href="/admin/dish/listDishes">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Отчеты
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/report/dailyReportPage">Ежедневные отчеты</a></li>
+                                <li><a href="/admin/report/periodicReportPage">Периодические отчеты</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <form method="GET" th:action="@{/logout}" class="navbar-form navbar-right">
+
+                        <input type="hidden">
+                        <button type="submit" name="logout" value="true" class="btn btn-secondary">
+                            Выход <span class="badge badge-light"><font size="2" th:text="${currentUserName}">default</font></span>
+                        </button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-1" style="background-color:lightgray; height:95vh"></div>
+        <div class="col-xs-10 text-center" style="background-color:white; height:95vh; display: table"><br>
+            <div class="container" style="width: 700px; background-color: #f8f8f8; border: solid lightgray 1px">
+
+                <div th:if="${param.usernameIsUsed}" class="alert alert-error align-center">
+                    <span>Имя пользователя занято</span>
+                </div>
+
+                <form class="form-horizontal" role="form" th:action="@{'/admin/confirmEditUser/' + ${id}}" method="post">
+                    <h2>Изменить пользователя</h2>
+                    <div class="form-group">
+                        <label for="imie" class="col-sm-3 control-label">Имя</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="imie" placeholder="имя" class="form-control" autofocus name="imie" th:value="${firstnameModel}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nazwisko" class="col-sm-3 control-label">Фамилия</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="nazwisko" placeholder="фамилия" class="form-control" name="nazwisko" th:value="${lastnameModel}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="username" class="col-sm-3 control-label">Логин</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="username" placeholder="логин" class="form-control" name="username" th:value="${usernameModel}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-3 control-label" >пароль</label>
+                        <div class="col-sm-9">
+                            <input type="password" id="password" name="пароль" placeholder="password" class="form-control" th:value="${passwowrdModel}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="restauracja" class="col-sm-3 control-label">Ресторан</label>
+                        <div class="col-sm-9">
+                            <select id="restauracja" class="form-control" name="restaurant">
+                                <option th:each="restaurant : ${restaurants}" th:value="${restaurant.name}"><p th:text="${restaurant.name}"></p></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-9 col-sm-offset-3">
+                            <button type="submit" class="btn btn-primary btn-block">Изменить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="col-xs-1" style="background-color:lightgray; height:95vh"></div>
+    </div>
+</div>
+</body>
+</html>
