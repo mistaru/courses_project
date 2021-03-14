@@ -2,17 +2,16 @@ package Restaurant.Restaurant.Restaurant.service;
 
 import Restaurant.Restaurant.Restaurant.Model.Restaurant;
 import Restaurant.Restaurant.Restaurant.repository.RestaurantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class RestaurantServiceImpl implements RestaurantService{
-
-    @Autowired
-    RestaurantRepository restaurantRepository;
+@RequiredArgsConstructor
+public class RestaurantServiceImpl implements RestaurantService {
+    private final RestaurantRepository restaurantRepository;
 
     @Override
     public void addRestaurant(String name, String address) {
@@ -21,7 +20,8 @@ public class RestaurantServiceImpl implements RestaurantService{
         restaurant.setAddress(address);
         restaurantRepository.save(restaurant);
     }
-    public Restaurant addRestaurant(Restaurant restaurant){
+
+    public Restaurant addRestaurant(Restaurant restaurant) {
         restaurantRepository.save(restaurant);
         return restaurant;
     }
@@ -37,26 +37,24 @@ public class RestaurantServiceImpl implements RestaurantService{
         return restaurantRepository.findAll();
     }
 
-
     @Override
     public Optional<Restaurant> getById(Long id) {
         return restaurantRepository.findById(id);
     }
 
     @Override
-    public void editRestaurant(Long id, String name,String address) throws IllegalStateException
-    {
+    public void editRestaurant(Long id, String name, String address) throws IllegalStateException {
         Restaurant restaurant = restaurantRepository.getOne(id);
 
-        //sprawdza czy nazwa isnieje, tylko jeśli jest inna niż edytowana
-        if(!restaurant.getName().equals(name)){
-            if(isNameUsed(name)){
+        if (!restaurant.getName().equals(name)) {
+            if (isNameUsed(name)) {
                 throw new IllegalStateException();
             }
         }
-            restaurant.setName(name);
-            restaurant.setAddress(address);
-            restaurantRepository.save(restaurant);
+
+        restaurant.setName(name);
+        restaurant.setAddress(address);
+        restaurantRepository.save(restaurant);
     }
 
     @Override

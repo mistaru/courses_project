@@ -1,7 +1,6 @@
 package Restaurant.Restaurant.Order.repository;
 
 import Restaurant.Restaurant.Order.Model.OrderModel;
-import Restaurant.Restaurant.Restaurant.Model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

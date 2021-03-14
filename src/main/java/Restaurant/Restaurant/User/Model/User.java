@@ -2,13 +2,10 @@ package Restaurant.Restaurant.User.Model;
 
 import Restaurant.Restaurant.Restaurant.Model.Restaurant;
 import lombok.*;
-import org.springframework.lang.NonNull;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Getter
@@ -17,8 +14,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Entity
 @Table(name = "userr")
-public class User  {
-    
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,15 +28,15 @@ public class User  {
     @NotNull
     private String password;
 
-    @ManyToOne(cascade=CascadeType.DETACH, fetch = FetchType.EAGER)
-    @JoinColumn(name="Restaurant_id")
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinColumn(name = "Restaurant_id")
     private Restaurant restaurant;
 
-    @ManyToMany(cascade=CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Role> roles;
 
 
-    public User(String firstName, String lastName, String username, String password,Restaurant restaurant) {
+    public User(String firstName, String lastName, String username, String password, Restaurant restaurant) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -58,8 +55,5 @@ public class User  {
         this.restaurant = user.getRestaurant();
 
     }
-
-
-
 
 }

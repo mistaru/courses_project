@@ -40,7 +40,6 @@ public class OrderModel {
     @JoinColumn(name = "daily_report_id")
     private DailyReport dailyReport;
 
-
     private String status;
 
     private float price;

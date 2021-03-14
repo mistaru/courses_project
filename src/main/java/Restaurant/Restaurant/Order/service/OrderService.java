@@ -10,17 +10,14 @@ import java.util.Optional;
 @Service
 public interface OrderService {
 
-    public void addOrder(OrderModel order);
+    void addOrder(OrderModel order);
 
-    public List<OrderModel> getAll();
+    List<OrderModel> getAll();
 
-    public List<OrderModel> getRestaurantOrders(Restaurant restaurant);
+    List<OrderModel> getRestaurantOrders(Restaurant restaurant);
 
-    public Optional<OrderModel> getOrderById(Long id);
+    Optional<OrderModel> getOrderById(Long id);
 
-    public void finish(Long id);
-
-
-
+    void finish(Long id);
 
 }

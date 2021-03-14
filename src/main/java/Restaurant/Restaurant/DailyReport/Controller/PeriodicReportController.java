@@ -3,8 +3,7 @@ package Restaurant.Restaurant.DailyReport.Controller;
 import Restaurant.Restaurant.DailyReport.Model.DailyReport;
 import Restaurant.Restaurant.DailyReport.Model.PeriodicReport;
 import Restaurant.Restaurant.DailyReport.Service.DailyReportService;
-import Restaurant.Restaurant.DailyReport.Service.PeriodicReportService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,16 +19,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin/report")
+@RequiredArgsConstructor
 public class PeriodicReportController {
-
-    @Autowired
-    PeriodicReportService periodicReportService;
-
-    @Autowired
-    DailyReportService dailyReportService;
+    private final DailyReportService dailyReportService;
 
     @GetMapping("/periodicReportPage")
-    public String getPeriodicReportHomepage(Model model){
+    public String getPeriodicReportHomepage(Model model) {
         model.addAttribute("currentUserName", this.getUsername());
         return "report/periodicReportHomepage";
     }
@@ -37,31 +32,29 @@ public class PeriodicReportController {
     @PostMapping("/getReportByDate")
     public String getReportByDate(@RequestParam String begin,
                                   @RequestParam String end,
-                                  Model model){
+                                  Model model) {
 
         LocalDate localDateBegin = LocalDate.parse(begin);
         LocalDate localDateEnd = LocalDate.parse(end);
 
         PeriodicReport currentPeriodicReport = new PeriodicReport(localDateBegin, localDateEnd);
 
-        List<DailyReport> listDailyReportsBetweenDates = dailyReportService.getDailyReportBetween(localDateBegin,localDateEnd);
+        List<DailyReport> listDailyReportsBetweenDates = dailyReportService.getDailyReportBetween(localDateBegin, localDateEnd);
         currentPeriodicReport.setListDailyReports(listDailyReportsBetweenDates);
         currentPeriodicReport.update();
 
-        if(listDailyReportsBetweenDates.size()>0){
+        if (listDailyReportsBetweenDates.size() > 0) {
             model.addAttribute("listReports", listDailyReportsBetweenDates);
             model.addAttribute("sumReport", currentPeriodicReport);
         }
 
         model.addAttribute("currentUserName", this.getUsername());
-
-        System.out.println("profits : "+currentPeriodicReport.getProfits());
-
+        System.out.println("profits : " + currentPeriodicReport.getProfits());
 
         return "report/periodicReportHomepage";
     }
 
-    public String getUsername(){
+    public String getUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
@@ -70,6 +63,5 @@ public class PeriodicReportController {
         }
         return null;
     }
-
 
 }

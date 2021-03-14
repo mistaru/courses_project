@@ -1,19 +1,14 @@
 package Restaurant.Restaurant.DailyReport.Service;
 
 import Restaurant.Restaurant.DailyReport.Repository.DailyReportRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
+@RequiredArgsConstructor
 public class PeriodicReportServiceImpl implements PeriodicReportService {
 
-    @Autowired
-    DailyReportService dailyReportService;
-
-    @Autowired
-    DailyReportRepository dailyReportRepository;
-
+    private final DailyReportService dailyReportService;
+    private final DailyReportRepository dailyReportRepository;
 
 }

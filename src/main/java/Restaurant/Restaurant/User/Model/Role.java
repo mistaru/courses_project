@@ -1,10 +1,8 @@
 package Restaurant.Restaurant.User.Model;
 
-import lombok.Data;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.*;
-
 
 @Entity
 @Table(name = "role")

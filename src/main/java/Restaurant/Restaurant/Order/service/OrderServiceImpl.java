@@ -3,17 +3,16 @@ package Restaurant.Restaurant.Order.service;
 import Restaurant.Restaurant.Order.Model.OrderModel;
 import Restaurant.Restaurant.Order.repository.OrderRepository;
 import Restaurant.Restaurant.Restaurant.Model.Restaurant;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-
-    @Autowired
-    OrderRepository repository;
+    private final OrderRepository repository;
 
     @Override
     public void addOrder(OrderModel order) {
@@ -25,15 +24,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderModel> getRestaurantOrders(Restaurant restaurant) {
-
         return repository.findOrderByRestaurant(restaurant.getId());
-
     }
 
     @Override
     public Optional<OrderModel> getOrderById(Long id) {
         return repository.findById(id);
-
     }
 
     @Override

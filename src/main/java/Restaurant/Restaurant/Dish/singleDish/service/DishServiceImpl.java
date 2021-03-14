@@ -1,19 +1,18 @@
 package Restaurant.Restaurant.Dish.singleDish.service;
 
-
 import Restaurant.Restaurant.Dish.singleDish.Model.Dish;
 import Restaurant.Restaurant.Dish.singleDish.repository.DishRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DishServiceImpl implements DishService{
+@RequiredArgsConstructor
+public class DishServiceImpl implements DishService {
 
-
-    @Autowired
-    DishRepository dishRepository;
+    private final DishRepository dishRepository;
 
     @Override
     public Dish addDish(String nazwa, float cena) {
@@ -25,19 +24,13 @@ public class DishServiceImpl implements DishService{
 
     @Override
     public List<Dish> getAll() {
-       return dishRepository.findAll();
+        return dishRepository.findAll();
     }
 
     @Override
-    public Dish getByName(String dishname){
-
-        Optional<Dish> optionalDish = dishRepository.findByName(dishname);
-        if(optionalDish.isPresent()) {
-            return optionalDish.get();
-        }
-        else {
-            return null;
-        }
+    public Dish getByName(String dishName) {
+        Optional<Dish> optionalDish = dishRepository.findByName(dishName);
+        return optionalDish.orElse(null);
 
     }
 
@@ -46,14 +39,12 @@ public class DishServiceImpl implements DishService{
         return dishRepository.findById(id);
     }
 
-
     @Override
     public void editDish(Long id, String name, float price) {
         Dish dish = dishRepository.getOne(id);
 
-        //sprawdza czy nazwa isnieje, tylko jeśli jest inna niż edytowana
-        if(!dish.getName().equals(name)){
-            if(isNameUsed(name)){
+        if (!dish.getName().equals(name)) {
+            if (isNameUsed(name)) {
                 throw new IllegalStateException();
             }
         }
@@ -69,14 +60,8 @@ public class DishServiceImpl implements DishService{
 
     @Override
     public boolean isNameUsed(String name) {
-            Optional<Dish> n = dishRepository.findByName(name);
-            if(n.isPresent()){
-                return true;
-            }
-            else{
-                return false;
-            }
-
-        }
+        Optional<Dish> n = dishRepository.findByName(name);
+        return n.isPresent();
     }
+}
 

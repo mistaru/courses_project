@@ -1,6 +1,5 @@
 package Restaurant.Restaurant.Dish.Product.model;
 
-import Restaurant.Restaurant.DailyReport.Model.DailyReport;
 import Restaurant.Restaurant.Dish.singleDish.Model.Dish;
 import lombok.*;
 
@@ -25,7 +24,6 @@ public class Product {
 
     private float price;
 
-
     public Product(Dish dish) {
         this.dish = dish;
         this.setQuantity(1);
@@ -35,8 +33,5 @@ public class Product {
     public void calcPrice(){
         this.price = quantity * dish.getPrice();
     }
-
-
-
 
 }

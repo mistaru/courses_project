@@ -2,7 +2,7 @@ package Restaurant.Restaurant.Restaurant.Controller;
 
 import Restaurant.Restaurant.Restaurant.Model.Restaurant;
 import Restaurant.Restaurant.Restaurant.service.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,10 +15,9 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("admin/restaurant")
+@RequiredArgsConstructor
 public class RestaurantController {
-
-    @Autowired
-    RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
 
     @GetMapping("/listRestaurants")
     public String listRestaurants(Model model){
@@ -99,24 +98,14 @@ public class RestaurantController {
 
     }
 
-
-
-
-
-
-
-
-
     private String getCurrentUserName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            return currentUserName;
+            return authentication.getName();
         }
         else{
             return "default";
         }
     }
-
 
 }

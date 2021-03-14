@@ -15,7 +15,7 @@ public interface DailyReportService {
 
     DailyReport getDailyReportByDay(LocalDateTime localDateTime);
 
-     List<DailyReport> getDailyReportBetween(LocalDate begin, LocalDate end);
+    List<DailyReport> getDailyReportBetween(LocalDate begin, LocalDate end);
 
     List<DailyReport> getAll();
 

@@ -11,7 +11,7 @@ import Restaurant.Restaurant.Restaurant.Model.Restaurant;
 import Restaurant.Restaurant.Restaurant.service.RestaurantService;
 import Restaurant.Restaurant.User.Model.User;
 import Restaurant.Restaurant.User.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,38 +20,26 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.jws.WebParam;
-import javax.persistence.criteria.Order;
 import javax.servlet.http.HttpSession;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
 @SessionAttributes("actCart")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    UserService userService;
-
-    @Autowired
-    OrderService orderService;
-
-    @Autowired
-    RestaurantService restaurantService;
-
-    @Autowired
-    DishService dishService;
-
-    @Autowired
-    DailyReportService dailyReportService;
-
-
+    private final UserService userService;
+    private final OrderService orderService;
+    private final DishService dishService;
+    private final DailyReportService dailyReportService;
 
     @GetMapping("/homepage")
-    public String userHomePage(Model model){
+    public String userHomePage(Model model) {
 
         Restaurant actRestaurant = null;
 
@@ -60,52 +48,42 @@ public class UserController {
             String currentUserName = authentication.getName();
             model.addAttribute("currentUserName", currentUserName);
             Optional<User> user = userService.getByUsername(currentUserName);
-            if(user.isPresent()) {
+            if (user.isPresent()) {
                 actRestaurant = user.get().getRestaurant();
                 model.addAttribute("currentUserRestaurant", actRestaurant.getName());
             }
         }
 
-        model.addAttribute("message","testmessage");
+        model.addAttribute("message", "testmessage");
         //add Dishes to model
         List<Dish> dishes = dishService.getAll();
-        model.addAttribute("dishes",dishes);
-
-
-//        Restaurant finalActRestaurant = actRestaurant;
-//        orderService.getAll().stream().filter(p->p.getRestaurant().getName().equals(finalActRestaurant.getName())).collect(Collectors.toList());
-
-       // System.out.println(orderService.getAll());
+        model.addAttribute("dishes", dishes);
 
         return "homepage";
     }
 
     @GetMapping("/newOrder")
-    public String newOrder(Model model){
+    public String newOrder(Model model) {
         model.addAttribute("currentUserName", this.getUsername());
 
         List<Dish> listAllDishes = dishService.getAll();
-
-
         model.addAttribute("listAllDishes", listAllDishes);
         return "order/newOrder";
     }
 
 
-
     @RequestMapping(value = "addProduct/{id}", method = RequestMethod.GET)
     public String addProduct(@PathVariable("id") String id,
                              HttpSession session,
-                             Model model){
+                             Model model) {
 
-        OrderModel order = new OrderModel();
         if (session.getAttribute("cart") == null) {
             List<Product> cart = new ArrayList<>();
 
             //if exist add to cart
             Optional<Dish> tempDish = dishService.getById(Long.valueOf(id));
 
-            if(tempDish.isPresent()){
+            if (tempDish.isPresent()) {
                 cart.add(new Product(tempDish.get()));
             }
 
@@ -121,7 +99,7 @@ public class UserController {
             if (index == -1) {
                 Optional<Dish> tempDish2 = dishService.getById(Long.valueOf(id));
 
-                if(tempDish.isPresent()){
+                if (tempDish.isPresent()) {
                     cart.add(new Product(tempDish2.get()));
                 }
             } else {
@@ -132,9 +110,7 @@ public class UserController {
             session.setAttribute("cart", cart);
         }
 
-        session.setAttribute("total",this.calcTotalPrice((List<Product>) session.getAttribute("cart")));
-
-
+        session.setAttribute("total", this.calcTotalPrice((List<Product>) session.getAttribute("cart")));
 
         //getRestaurant
         Restaurant actRestaurant = null;
@@ -144,45 +120,39 @@ public class UserController {
             String currentUserName = authentication.getName();
             model.addAttribute("currentUserName", currentUserName);
             Optional<User> user = userService.getByUsername(currentUserName);
-            if(user.isPresent()) {
+            if (user.isPresent()) {
                 actRestaurant = user.get().getRestaurant();
                 model.addAttribute("currentUserRestaurant", actRestaurant.getName());
             }
         }
 
         List<Dish> listAllDishes = dishService.getAll();
-
-
         model.addAttribute("listAllDishes", listAllDishes);
-
-
         return "order/newOrder";
     }
 
     @RequestMapping(value = "remove/{id}", method = RequestMethod.GET)
     public ModelAndView remove(@PathVariable("id") String id, HttpSession session) {
-        
 
         List<Product> cart = (List<Product>) session.getAttribute("cart");
         int index = this.exists(id, cart);
         cart.remove(index);
         session.setAttribute("cart", cart);
-        session.setAttribute("total",this.calcTotalPrice((List<Product>) session.getAttribute("cart")));
+        session.setAttribute("total", this.calcTotalPrice((List<Product>) session.getAttribute("cart")));
         return new ModelAndView("redirect:/user/newOrder");
-
     }
 
     @GetMapping("confirmAddOrder")
-    public ModelAndView confirmAddOrder(HttpSession session,Model model){
+    public ModelAndView confirmAddOrder(HttpSession session, Model model) {
         OrderModel order = new OrderModel();
 
         Optional<User> user = userService.getByUsername(this.getUsername());
 
-        if(session.getAttribute("cart")==null){
+        if (session.getAttribute("cart") == null) {
             return new ModelAndView("redirect:/user/newOrder");
         }
 
-        if(user.isPresent()){
+        if (user.isPresent()) {
             order.setUser(user.get());
             order.setRestaurant(user.get().getRestaurant());
         }
@@ -194,20 +164,18 @@ public class UserController {
 
         this.addOrderToDailyReport(order);
         orderService.addOrder(order);
-
-
         session.removeAttribute("cart");
         session.removeAttribute("total");
-        model.addAttribute("add",true);
+        model.addAttribute("add", true);
 
         System.out.println(dailyReportService.getDailyReportByDay(order.getDate()).getDish_price());
 
         return new ModelAndView("redirect:/user/homepage");
     }
 
-    private void addOrderToDailyReport(OrderModel order){
+    private void addOrderToDailyReport(OrderModel order) {
         DailyReport currentDay = dailyReportService.getDailyReportByDay(order.getDate());
-        if(currentDay==null){   //jeśli nie ma raportu z dzisija, stwórz go
+        if (currentDay == null) {   //jeśli nie ma raportu z dzisija, stwórz go
             currentDay = new DailyReport();
             currentDay.setDate(order.getDate().toLocalDate());
             currentDay.setUser(order.getUser());
@@ -220,7 +188,7 @@ public class UserController {
 
     @GetMapping("orderList/{restaurant}")
     public String orderList(@PathVariable String restaurant,
-                            Model model){
+                            Model model) {
 
         Restaurant actRestaurant = null;
 
@@ -229,14 +197,11 @@ public class UserController {
             String currentUserName = authentication.getName();
             model.addAttribute("currentUserName", currentUserName);
             Optional<User> user = userService.getByUsername(currentUserName);
-            if(user.isPresent()) {
+            if (user.isPresent()) {
                 actRestaurant = user.get().getRestaurant();
                 model.addAttribute("currentUserRestaurant", actRestaurant.getName());
             }
         }
-
-   
-
 
         List<OrderModel> actRestaurantOrders = orderService.getRestaurantOrders(actRestaurant);
 
@@ -248,12 +213,12 @@ public class UserController {
 
     @GetMapping("selectOrder/{id}")
     public ModelAndView selectOrder(@PathVariable Long id,
-                                     Model model,
-                                    HttpSession session){
-        OrderModel actOrder =null;
+                                    Model model,
+                                    HttpSession session) {
+        OrderModel actOrder = null;
         Optional<OrderModel> OptActOrder = orderService.getOrderById(id);
 
-        if(OptActOrder.isPresent()){
+        if (OptActOrder.isPresent()) {
             actOrder = OptActOrder.get();
         }
 
@@ -264,7 +229,7 @@ public class UserController {
             String currentUserName = authentication.getName();
             model.addAttribute("currentUserName", currentUserName);
             Optional<User> user = userService.getByUsername(currentUserName);
-            if(user.isPresent()) {
+            if (user.isPresent()) {
                 actRestaurant = user.get().getRestaurant();
                 model.addAttribute("currentUserRestaurant", actRestaurant.getName());
             }
@@ -276,33 +241,28 @@ public class UserController {
         List<Product> products = actOrder.getProducts();
         session.setAttribute("currentSelectedOrder", actOrder);
         session.setAttribute("currentSelectedProductsInOrder", products);
-        session.setAttribute("total",actOrder.getPrice());
-        model.addAttribute("edit",true);
+        session.setAttribute("total", actOrder.getPrice());
+        model.addAttribute("edit", true);
 
         return new ModelAndView("redirect:/user/orderList/{restaurant}");
     }
 
     @GetMapping("finishOrder")
     public ModelAndView finishOrder(
-                                    Model model,
-                                    HttpSession session){
-
+            Model model,
+            HttpSession session) {
         OrderModel orderToFinish = (OrderModel) session.getAttribute("currentSelectedOrder");
 
-
         orderService.finish(orderToFinish.getId());
-
 
         model.addAttribute("restaurant", userService.getByUsername(this.getUsername()).get().getRestaurant().getName());
 
         return new ModelAndView("redirect:/user/orderList/{restaurant}");
     }
 
-
-
-    private float calcTotalPrice(List<Product> products){
-        float sum=0;
-        for(Product xx: products){
+    private float calcTotalPrice(List<Product> products) {
+        float sum = 0;
+        for (Product xx : products) {
             sum += xx.getPrice();
         }
         return sum;
@@ -317,12 +277,10 @@ public class UserController {
         return -1;
     }
 
-    public String getUsername(){
+    public String getUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
-            return currentUserName;
-
+            return authentication.getName();
         }
         return null;
     }

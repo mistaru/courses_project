@@ -1,11 +1,7 @@
 package Restaurant.Restaurant.Dish.singleDish.Model;
-
-
-import Restaurant.Restaurant.Order.Model.OrderModel;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Data
 @Getter
@@ -21,7 +17,6 @@ public class Dish {
     private Long id;
     private String name;
     private float price;
-
 
     public Dish(String name, float price) {
         this.name = name;
