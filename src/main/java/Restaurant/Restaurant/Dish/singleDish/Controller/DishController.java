@@ -3,7 +3,6 @@ package Restaurant.Restaurant.Dish.singleDish.Controller;
 import Restaurant.Restaurant.Dish.singleDish.Model.Dish;
 import Restaurant.Restaurant.Dish.singleDish.service.DishService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +37,7 @@ public class DishController {
     @PostMapping("/confirmAddDish")
     @ResponseBody
     public ModelAndView addDish(@RequestParam("nazwa") String nazwa,
-                                @RequestParam("cena") float cena,
+                                @RequestParam("cena") Integer cena,
                                 Model model) {
 
         //check username is used
@@ -81,7 +80,7 @@ public class DishController {
 
     @PostMapping("/confirmEditDish/{id}")
     public ModelAndView confirmEditDish(@RequestParam("nazwa") String name,
-                                        @RequestParam("cena") float price,
+                                        @RequestParam("cena") Integer price,
                                         @PathVariable Long id,
                                         Model model) {
 

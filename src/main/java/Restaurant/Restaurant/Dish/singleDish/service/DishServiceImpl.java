@@ -15,7 +15,7 @@ public class DishServiceImpl implements DishService {
     private final DishRepository dishRepository;
 
     @Override
-    public Dish addDish(String nazwa, float cena) {
+    public Dish addDish(String nazwa, Integer cena) {
         Dish dish = new Dish();
         dish.setName(nazwa);
         dish.setPrice(cena);
@@ -40,7 +40,7 @@ public class DishServiceImpl implements DishService {
     }
 
     @Override
-    public void editDish(Long id, String name, float price) {
+    public void editDish(Long id, String name, Integer price) {
         Dish dish = dishRepository.getOne(id);
 
         if (!dish.getName().equals(name)) {
