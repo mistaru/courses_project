@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/admin/ingredients")
 public class IngredientsController {
 
     private final IngredientsRepository ingredientsRepository;
@@ -33,27 +34,27 @@ public class IngredientsController {
     }
 
 
-    @RequestMapping(value = "/ingredients", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String main(Model model) {
         List<Ingredients> ingredients = ingredientsRepository.findAll().stream()
                 .sorted()
                 .collect(Collectors.toList());
         model.addAttribute("Ingredients", ingredients);
-        return "ingredients";
+        return "ingredients/listIngredients";
     }
 
 
-    @RequestMapping(value = "/new_ingredient", method = RequestMethod.GET)
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newIngredient(Model model) {
         model.addAttribute("newIngredient", new Ingredients());
-        return "ingredients/newIngredient";
+        return "ingredients/newIngredients";
     }
 
 
     @RequestMapping(value = "/new_ingredient/add", method = RequestMethod.POST)
     public String addIngredient(@Valid Ingredients ingredients) {
         ingredientsRepository.save(ingredients);
-        return "redirect:/ingredients";
+        return "redirect:/ingredients/ingredients";
     }
 
 
@@ -66,7 +67,7 @@ public class IngredientsController {
         model.addAttribute("ingredientsList", ingredientsList);
         model.addAttribute("compositions", compositions);
 
-        return "new_component";
+        return "/ingredients/newIngredients";
     }
 
 
