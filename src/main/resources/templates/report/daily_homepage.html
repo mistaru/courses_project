@@ -158,6 +158,7 @@ td {
                         </form>
                     </div>
 
+                <br>
                 <h4 style="color:#2C3E50" > Блюда</h4>
 
                 <div th:if="${dailyReport}" class="panel-body">
@@ -179,10 +180,10 @@ td {
                             </tbody>
                         </table>
                         <div class="text-center">
-                            <h4> <label style="color:#E74C3C">Сумма: </label><span th:text="${dailyReport.profits}"></span> сом</h4> </div>
+                            <h4> <label style="color:#E74C3C">Прибыль : </label><span th:text="${dailyReport.profits}"></span> сом</h4> </div>
 
 
-
+                    <br> <br>
                         <h4 style="color:#2C3E50" > Ингредиенты</h4>
                         <div th:if="${ingredients}" class="panel-body">
 
@@ -201,7 +202,7 @@ td {
                                 </tbody>
                             </table>
                             <div class="text-center">
-                                <h4> <label style="color:#E74C3C">Сумма: </label><span th:text="${overall1.overallIngSum}"></span> сом</h4> </div>
+                                <h4> <label style="color:#E74C3C">Расходы : </label><span th:text="${overall1.overallIngSum}"></span> сом</h4> </div>
 
                     <div th:if="${reportNotExist}" class="alert alert-danger text-center">
                         В этот день не было создано никаких заказов                    </div>
