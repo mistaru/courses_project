@@ -55,13 +55,22 @@
                                 <li><a href="/admin/report/periodicReportPage">Периодические отчеты</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ингредиенты
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/ingredients/new">Добавить</a></li>
+                                <li><a href="/admin/ingredients/list">Список</a></li>
+                            </ul>
+                        </li>
                     </ul>
 
                     <form method="GET" th:action="@{/logout}" class="navbar-form navbar-right">
 
                         <input type="hidden">
                         <button type="submit" name="logout" value="true" class="btn btn-secondary">
-                            Выход <span class="badge badge-light"><font size="2" th:text="${currentUserName}">default</font></span>
+                            Выход <span class="badge badge-light"><font size="2"
+                                                                        th:text="${currentUserName}">default</font></span>
                         </button>
                     </form>
                 </div>
@@ -77,19 +86,29 @@
                 <span>Имя занято</span>
             </div>
 
+            <a th:href="@{'/admin/ingredients/new_component/' + ${dish.id}}"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bag-plus-fill" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM8.5 8a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V12a.5.5 0 0 0 1 0v-1.5H10a.5.5 0 0 0 0-1H8.5V8z"/>
+            </svg></a>
+
+
+
             <div class="container" style="width: 700px; background-color: #f8f8f8; border: solid lightgray 1px">
-                <form class="form-horizontal" role="form" th:action="@{'/admin/dish/confirmEditDish/' + ${id}}" method="post">
+
+                <form class="form-horizontal" role="form" th:action="@{'/admin/dish/confirmEditDish/' + ${id}}"
+                      method="post">
                     <h2>Редактировать Блюдо</h2>
                     <div class="form-group">
                         <label for="nazwa" class="col-sm-3 control-label">Имя</label>
                         <div class="col-sm-9">
-                            <input type="text" id="nazwa" placeholder="имя" class="form-control" autofocus name="nazwa"  th:value="${name}">
+                            <input type="text" id="nazwa" placeholder="имя" class="form-control" autofocus name="nazwa"
+                                   th:value="${name}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="cena" class="col-sm-3 control-label">Цена</label>
                         <div class="col-sm-9">
-                            <input type="number" step="0.01" id="cena" placeholder="цена" class="form-control" name="cena"  th:value="${price}">
+                            <input type="number" step="0.01" id="cena" placeholder="цена" class="form-control"
+                                   name="cena" th:value="${price}">
                         </div>
                     </div>
 
@@ -99,6 +118,18 @@
                         </div>
                     </div>
                 </form>
+            </div>
+
+
+            <div style="width: 300px; margin-left: auto; margin-right: auto">
+                <ul class="list-group">
+                    <li class="list-group-item" th:each="list : ${list}">
+                        <span th:text="${list.ingredients.productName}">error</span>:
+                        <span th:text="${list.count}">error</span>
+                        <span th:text="${list.ingredients.enumUnit}">error</span>:
+                        <span th:text="${list.ingredients.price}">error</span> сом
+                    </li>
+                </ul>
             </div>
 
         </div>

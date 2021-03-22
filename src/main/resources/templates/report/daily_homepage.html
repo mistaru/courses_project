@@ -108,6 +108,14 @@ td {
                                 <li><a href="/admin/report/periodicReportPage">Периодические отчеты</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ингредиенты
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/ingredients/new">Добавить</a></li>
+                                <li><a href="/admin/ingredients/list">Список</a></li>
+                            </ul>
+                        </li>
                     </ul>
 
 
@@ -142,19 +150,22 @@ td {
                             <div class="customer" >
                                 <div class="input-group">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    <input type="date" class="form-control" value="2021-03-14" name="datee">
+                                    <input type="date" class="form-control" value="2021-03-22" name="datee">
                                 </div>
                             </div>          <br>
                         <button type="submit" class="btn btn-danger btn-lg btn3d"><span class="glyphicon glyphicon-search"></span></button>
 
                         </form>
                     </div>
-                    <div th:if="${dailyReport}" class="panel-body">
+
+                <h4 style="color:#2C3E50" > Блюда</h4>
+
+                <div th:if="${dailyReport}" class="panel-body">
 
                         <table class="table table-striped table-condensed">
                             <thead>
                             <tr>
-                                <th class="text-center">Продукт</th>
+                                <th class="text-center">Блюдо</th>
                                 <th class="text-center">Количество</th>
                                 <th class="text-center">Сумма</th>
                             </tr>
@@ -172,7 +183,26 @@ td {
 
 
 
-<!--                    </div>-->
+                        <h4 style="color:#2C3E50" > Ингредиенты</h4>
+                        <div th:if="${ingredients}" class="panel-body">
+
+                            <table class="table table-striped table-condensed">
+                                <thead>
+                                <tr>
+                                    <th class="text-center">Название</th>
+                                    <th class="text-center">Кол-во(гр,шт)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item: ${ingredients}">
+                                    <td class="text-center" th:text="${item.name}"></td>
+                                    <td class="text-center" th:text="${item.count}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="text-center">
+                                <h4> <label style="color:#E74C3C">Сумма: </label><span th:text="${overall1.overallIngSum}"></span> сом</h4> </div>
+
                     <div th:if="${reportNotExist}" class="alert alert-danger text-center">
                         В этот день не было создано никаких заказов                    </div>
                 </div>

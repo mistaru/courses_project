@@ -88,28 +88,10 @@ public class ScoreController {
         }
 
         OverallDTO overallDto = new OverallDTO();
-        overallDto.setOverallSum(overallSum);
         overallDto.setOverallIngSum(overallIngPrice);
 
-        List<Report> listReports = reportRepository.findAll().stream()
-                .filter(rep -> rep.getTable() == table).collect(Collectors.toList());
-
-        Report rep = listReports.get(0);
-        for (Report report : listReports) {
-            if (rep.getDate().getSecond() > report.getDate().getSecond())
-                rep = report;
-        }
-
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm:ss");
-
-        LocalTime time = rep.getDate().toLocalTime();
-        LocalDate date = rep.getDate().toLocalDate();
-
-        model.put("date", date);
-        model.put("time", dtf.format(time));
 
         model.put("overall1", overallDto);
-        model.put("Reports", reports);
         model.put("ingredients", ingredientsDTO);
 
         return "score";

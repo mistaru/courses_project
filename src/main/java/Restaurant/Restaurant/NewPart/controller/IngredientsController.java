@@ -52,9 +52,10 @@ public class IngredientsController {
 
 
     @RequestMapping(value = "/new_ingredient/add", method = RequestMethod.POST)
-    public String addIngredient(@Valid Ingredients ingredients) {
+    public String addIngredient(@Valid Ingredients ingredients, Model model) {
         ingredientsRepository.save(ingredients);
-        return "redirect:/ingredients/ingredients";
+        model.addAttribute("add", true);
+        return "redirect:/admin/ingredients/list";
     }
 
 
@@ -64,10 +65,12 @@ public class IngredientsController {
         List<Ingredients> ingredientsList = ingredientsRepository.findAll();
         Iterable<Composition> compositions = compositionRepository.findAll();
         model.addAttribute("Dish", dish);
+        model.addAttribute("dishName", dish.getName());
+        model.addAttribute("dishPrice", dish.getPrice());
         model.addAttribute("ingredientsList", ingredientsList);
         model.addAttribute("compositions", compositions);
 
-        return "/ingredients/newIngredients";
+        return "/ingredients/newComponent";
     }
 
 
@@ -95,15 +98,16 @@ public class IngredientsController {
         model.put("addIngredient", dishesIterable);
         model.put("compositions", compositions);
 
-        return "redirect:/new_component/" + dish.getId();
+        return "redirect:/admin/dish/editDish/" + dish.getId();
     }
 
 
     @RequestMapping(value = "/ingredient/delete/{id}", method = RequestMethod.GET)
     @Transactional
-    public String deleteIngredients(@PathVariable Long id) {
+    public String deleteIngredients(@PathVariable Long id, Model model) {
         ingredientsRepository.deleteById(id);
-        return "redirect:/ingredients";
+        model.addAttribute("remove", true);
+        return "redirect:/admin/ingredients/list";
     }
 
 }

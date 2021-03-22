@@ -2,6 +2,13 @@ package Restaurant.Restaurant.DailyReport.Controller;
 
 import Restaurant.Restaurant.DailyReport.Model.DailyReport;
 import Restaurant.Restaurant.DailyReport.Service.DailyReportService;
+import Restaurant.Restaurant.Dish.Product.model.Product;
+import Restaurant.Restaurant.NewPart.dto.IngredientDTO;
+import Restaurant.Restaurant.NewPart.dto.OverallDTO;
+import Restaurant.Restaurant.NewPart.model.Composition;
+import Restaurant.Restaurant.NewPart.model.Ingredients;
+import Restaurant.Restaurant.NewPart.repository.IngredientsRepository;
+import Restaurant.Restaurant.Order.Model.OrderModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -20,6 +30,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DailyReportController {
     private final DailyReportService dailyReportService;
+    private final IngredientsRepository ingredientsRepository;
 
     @GetMapping("/dailyReportPage")
     public String dailyReportPage(Model model) {
@@ -65,6 +76,43 @@ public class DailyReportController {
         } else {
             model.addAttribute("reportNotExist", true);
         }
+
+        if (optDailyReport.isPresent()) {
+            HashMap<Ingredients, Integer> ingCount = new HashMap<>();
+
+            for (OrderModel order : currentDailyReport.getOrders()) {
+                for (Product prodakt : order.getProducts()) {
+                    for (Composition comp : prodakt.getDish().getCompositions()) {
+                        int c = prodakt.getQuantity();
+                        Ingredients ing = comp.getIngredients();
+                        if (ingCount.get(ing) != null) ingCount.put(ing, c * (ingCount.get(ing) + comp.getCount()));
+                        else ingCount.put(ing, c * comp.getCount());
+                    }
+                }
+            }
+
+            List<IngredientDTO> ingredientsDTO = new ArrayList<>();
+            ingCount.keySet()
+                    .forEach(ing -> ingredientsDTO.add(new IngredientDTO(ing.getProductName(), ingCount.get(ing))));
+
+            int overallIngPrice = 0;
+            for (IngredientDTO ingDto : ingredientsDTO) {
+                Ingredients ing = ingredientsRepository.findByProductName(ingDto.getName());
+                overallIngPrice += (ing.getPrice() * ingDto.getCount());
+            }
+
+            OverallDTO overallDto = new OverallDTO();
+            overallDto.setOverallIngSum(overallIngPrice);
+
+
+            model.addAttribute("overall1", overallDto);
+            model.addAttribute("ingredients", ingredientsDTO);
+
+        } else {
+            model.addAttribute("reportNotExist", true);
+        }
+
+
         model.addAttribute("allDailyReports", dailyReportService.getAll());
         return "report/daily_homepage";
 

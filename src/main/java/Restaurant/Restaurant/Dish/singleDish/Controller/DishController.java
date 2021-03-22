@@ -74,6 +74,8 @@ public class DishController {
             model.addAttribute("name", dish.getName());
             model.addAttribute("price", dish.getPrice());
             model.addAttribute("ajdi", dish.getId());
+            model.addAttribute("list", dish.getCompositions());
+            model.addAttribute("dish", dish );
         }
         return "dishes/editDish";
     }

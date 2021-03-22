@@ -155,6 +155,14 @@ $(function () {
                                 <li><a href="/admin/report/periodicReportPage">Периодические отчеты</a></li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ингредиенты
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/ingredients/new">Добавить</a></li>
+                                <li><a href="/admin/ingredients/list">Список</a></li>
+                            </ul>
+                        </li>
                     </ul>
 
 
@@ -176,30 +184,30 @@ $(function () {
             <div class="container">
                 <div class="row">
                     <div th:if="${param.remove}" class="alert alert-success">
-                        <span>Блюдо было удалено</span>
+                        <span>Ингредиент был удален</span>
                     </div>
                     <div th:if="${param.update}" class="alert alert-success">
-                        <span>Блюдо было отредактировано</span>
+                        <span>Ингредиент был отредактирован</span>
                     </div>
                     <div th:if="${param.add}" class="alert alert-success">
-                        <span>Блюдо было добавлено</span>
+                        <span>Ингредиент был добавлен</span>
                     </div>
-                    <h2>Список блюд</h2>
+                    <h2>Список Ингредиентов</h2>
                 </div>
                 <div class="row">
 
 
                     <div style="width: 300px; margin-left: auto; margin-right: auto">
                         <ul class="list-group">
-                            <li class="list-group-item" th:each="dish : ${dishes}">
-                                <span th:text="${dish.name}">error</span>:
-                                <span th:text="${dish.price}">error</span> сом
+                            <li class="list-group-item" th:each="ingredients : ${Ingredients}">
+                                <span th:text="${ingredients.productName}">error</span>:
+                                <span th:text="${ingredients.enumUnit}">error</span>:
+                                <span th:text="${ingredients.price}">error</span> сом
                                 <span class="show-menu">
 						<span class="glyphicon glyphicon-chevron-left"></span>
 					</span>
                                 <ul class="list-group-submenu">
-                                    <a th:href="@{'/admin/dish/removeDish/' + ${dish.id}}"><li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li></a>
-                                    <a th:href="@{'/admin/dish/editDish/' + ${dish.id}}"><li class="list-group-submenu-item warning"><span class="glyphicon glyphicon-pencil"></span></li></a>
+                                    <a th:href="@{'/admin/ingredients/ingredient/delete/' + ${ingredients.id}}"><li class="list-group-submenu-item danger"><span class="glyphicon glyphicon-trash"></span></li></a>
                                 </ul>
                             </li>
                         </ul>

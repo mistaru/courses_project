@@ -21,46 +21,55 @@
                     <div class="navbar-header">
                         <a class="navbar-brand" href="/admin/homepage">Ресторан</a>
                     </div>
-                        <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
 
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Пользователи
-                                    <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/admin/newUser">Добавить</a></li>
-                                    <li><a href="/admin/listUsers">Список</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Рестораны
-                                    <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/admin/restaurant/newRestaurant">Добавить</a></li>
-                                    <li><a href="/admin/restaurant/listRestaurants">Список</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Блюдо
-                                    <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/admin/dish/newDish">Добавить</a></li>
-                                    <li><a href="/admin/dish/listDishes">Список</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Отчеты
-                                    <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="/admin/report/dailyReportPage">Ежедневные отчеты</a></li>
-                                    <li><a href="/admin/report/periodicReportPage">Периодические отчеты</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Пользователи
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/newUser">Добавить</a></li>
+                                <li><a href="/admin/listUsers">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Рестораны
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/restaurant/newRestaurant">Добавить</a></li>
+                                <li><a href="/admin/restaurant/listRestaurants">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Блюдо
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/dish/newDish">Добавить</a></li>
+                                <li><a href="/admin/dish/listDishes">Список</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Отчеты
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/report/dailyReportPage">Ежедневные отчеты</a></li>
+                                <li><a href="/admin/report/periodicReportPage">Периодические отчеты</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Ингредиенты
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/ingredients/new">Добавить</a></li>
+                                <li><a href="/admin/ingredients/list">Список</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                     <form method="GET" th:action="@{/logout}" class="navbar-form navbar-right">
 
                         <input type="hidden">
                         <button type="submit" name="logout" value="true" class="btn btn-secondary">
-                            Выход <span class="badge badge-light"><font size="2" th:text="${currentUserName}">default</font></span>
+                            Выход <span class="badge badge-light"><font size="2"
+                                                                        th:text="${currentUserName}">default</font></span>
                         </button>
                     </form>
                 </div>
@@ -72,23 +81,32 @@
         <div class="col-xs-1" style="background-color:lightgray; height:95vh"></div>
         <div class="col-xs-10 text-center" style="background-color:white; height:95vh; display: table"><br>
 
-            <div th:if="${param.nameIsUsed}" class="alert alert-error align-center">
-                <span>Имя занято</span>
-            </div>
 
             <div class="container" style="width: 700px; background-color: #f8f8f8; border: solid lightgray 1px">
-                <form class="form-horizontal" role="form" th:action="@{/admin/dish/confirmAddDish}" method="post">
-                    <h2>Добавить Блюдо</h2>
+                <form class="form-horizontal" role="form" th:action="@{/admin/ingredients/new_component/add}" method="post">
+                    <h2>Новый компонент</h2>
                     <div class="form-group">
-                        <label for="nazwa" class="col-sm-3 control-label">Название</label>
+                        <label class="col-sm-3 control-label">Блюдо</label>
                         <div class="col-sm-9">
-                            <input type="text" id="nazwa" placeholder="имя" class="form-control" autofocus name="nazwa" value="">
+                            <input type="text" class="form-control" name="nameDish" autofocus th:value="${dishName}">
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="cena" class="col-sm-3 control-label">Цена</label>
+                        <label class="col-sm-3 control-label">Кол-во</label>
                         <div class="col-sm-9">
-                            <input type="number" step="0.01" id="cena" placeholder="цена" class="form-control" name="cena" value="">
+                            <input type="number" class="form-control" name="count"
+                                   placeholder="Кол-во(шт,пч,100гр)"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Ингредиенты</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="productName">
+                                <option th:each="ingredient : ${ingredientsList}"><p
+                                        th:text="${ingredient.productName}"></p></option>
+                            </select>
                         </div>
                     </div>
 
